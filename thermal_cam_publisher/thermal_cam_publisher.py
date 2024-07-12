@@ -39,11 +39,11 @@ class ThermalCamPublisher(Node):
         # Resize the image to a standard size.
         thermal_image = cv2.resize(thermal_image, (320, 240), interpolation=cv2.INTER_CUBIC)
 
-        # Convert grayscale to BGR format.
-        thermal_image_bgr = cv2.cvtColor(thermal_image, cv2.COLOR_GRAY2BGR)
+        # Apply a colormap to the thermal image.
+        thermal_image_color = cv2.applyColorMap(thermal_image, cv2.COLORMAP_JET)
 
         # Convert the image to a ROS 2 CompressedImage message.
-        msg = self.bridge.cv2_to_compressed_imgmsg(thermal_image_bgr, dst_format='jpg')
+        msg = self.bridge.cv2_to_compressed_imgmsg(thermal_image_color, dst_format='jpg')
 
         # Publish the message.
         self.publisher_.publish(msg)
